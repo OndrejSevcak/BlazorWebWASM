@@ -1,0 +1,42 @@
+﻿@page "/tetris"
+
+<div class="container d-flex mt-4">
+    <div class="board">
+        @for (int row = 1; row < _service.GameBoard.Height + 1; row++)
+        {
+            for (int col = 1; col < _service.GameBoard.Width + 1; col++)
+            {
+                var (_row, _col) = (row, col);
+                string colorClass = String.Empty;
+
+                @if (_service.State.CurrentShape != null &&
+                    _service.State.CurrentShape.Cells.Any(c => c.Row == _row && c.Col == _col))
+                {
+                    colorClass = _service.State.CurrentShape.Color;
+                }
+                else if(_service.MergedShapes.Any(s => s.Cells.Any(c => c.Row == _row && c.Col == _col)))
+                {
+                    colorClass = _service.MergedShapes.First(s => s.Cells.Any(c => c.Row == _row && c.Col == _col)).Color;
+                }
+
+                <div class="cell @colorClass" @onclick="(() => LogCell(_row, _col))"></div>
+            }
+        }
+    </div>
+    <div class="controls">
+        <button class="btn-outline-dark" @onclick="StartNewGame">New Game</button>
+        <button class="btn-outline-dark" @onclick="EndGame">End Game</button>
+
+        <div class="mt-5 d-flex justify-content-center">
+            <button class="btn-outline-dark" @onclick="MoveLeft">Left</button>
+            <button class="btn-outline-dark" @onclick="MoveRight">Right</button>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-center">
+            <button class="btn-outline-dark" @onclick="Rotate">Rotate</button>
+            <button class="btn-outline-dark" @onclick="Drop">Drop</button>
+        </div>
+    </div>
+</div>
+
+

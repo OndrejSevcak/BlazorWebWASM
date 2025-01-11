@@ -1,0 +1,59 @@
+﻿@inject NavigationManager _navManager
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-light w250 h-100">
+    <a href="#" class="d-flex align-items-center mb-3 text-dark text-decoration-none">
+        <i class="bi-house-door-fill-nav-menu"></i>
+        <span class="fs-4"></span>
+    </a>
+    <hr />
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="pointer @(activeItem == "Home" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/"))">
+            <div class="nav-link @(activeItem == "Home" ? "active" : "text-dark")">
+                <i class="bi bi-house"></i>
+                &emsp;Home
+            </div>
+        </li>
+        <li class="pointer @(activeItem == "Blog" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/blog"))">
+            <div class="nav-link @(activeItem == "Blog" ? "active" : "text-dark")">
+                <i class="bi bi-pen"></i>
+                &emsp;Blog
+            </div>
+        </li>
+        <li class="pointer @(activeItem == "Tetris" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/tetris"))">
+            <div class="nav-link @(activeItem == "Tetris" ? "active" : "text-dark")">
+                <i class="bi bi-box"></i>
+                &emsp;Tetris
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+@code {
+    string activeItem = "Home";
+
+    void NavigateTo(string path)
+    {
+        switch (path)
+        {
+            case "/":
+                activeItem = "Home";
+                _navManager.NavigateTo(path);
+                break;
+            case "/blog":
+                activeItem = "Blog";
+                _navManager.NavigateTo(path);
+                break;
+            case "/tetris":
+                activeItem = "Tetris";
+                _navManager.NavigateTo(path);
+                break;
+            default:
+                activeItem = "Home";
+                _navManager.NavigateTo(path);
+                break;
+        }
+
+    }
+
+}

@@ -1,0 +1,17 @@
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    flex: 1;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+

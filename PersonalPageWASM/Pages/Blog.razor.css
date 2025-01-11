@@ -1,0 +1,12 @@
+﻿.post-box {
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+    .post-box:hover {
+        background-color: #f7f7f7;
+    }

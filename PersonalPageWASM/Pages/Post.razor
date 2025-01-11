@@ -1,0 +1,46 @@
+﻿@page "/blogpost/{PostId}"
+
+@using PersonalPageWASM.Services
+@using PersonalPageWASM.Models
+
+
+@inject BlogService _blogService
+
+<div class="container">
+
+    @if (post == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="row mt-2 w-100">
+            <div class="d-flex justify-content-center">
+                <h2>@post.Title</h2>
+            </div>
+            <div class="d-flex justify-content-center">
+                <h6>@post.Description</h6>
+            </div>
+            <div class="d-flex justify-content-end">
+                <h6>@post.Date</h6>
+            </div>
+            <br />
+            <div class="d-flex mt-2">
+                <div>@((MarkupString)post.HtmlContent)</div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public string? PostId { get; set; }
+
+    BlogPost? post = null;
+
+    protected override void OnInitialized()
+    {
+        post = _blogService.Posts?.Where(p => p.Id == PostId)?.FirstOrDefault();
+    }
+}
