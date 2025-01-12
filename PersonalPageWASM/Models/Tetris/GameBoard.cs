@@ -57,10 +57,14 @@
             return true;
         }
 
-        public void TryRotateShape(Shape shape)
+        public void TryRotateShape(ref Shape shape)
         {
-            Shape original = new Shape(shape.ShapeType);
-            original.Cells = shape.Cells.Select(c => new Cell(c.Row, c.Col)).ToList();
+            Shape original = new Shape(shape.ShapeType)
+            {
+                Cells = shape.Cells.Select(c => new Cell(c.Row, c.Col)).ToList(),
+                Color = shape.Color,
+                Rotated = shape.Rotated
+            };
 
             int row = shape.Cells.Min(c => c.Row);
             int col = shape.Cells.Min(c => c.Col);
@@ -107,12 +111,17 @@
                 case ShapeEnum.J:
                     if (!shape.Rotated)
                     {
-                        foreach (var cell in shape.Cells)
-                        {
-                            cell.Row = row;
-                            cell.Col = col;
-                            col++;
-                        }
+                        shape.Cells[0].Row = row + 1;
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[2].Row = row + 1;
+
+                        shape.Cells[0].Col = col;
+                        shape.Cells[1].Col = col + 1;
+                        shape.Cells[2].Col = col + 2;
+
+                        shape.Cells[3].Row = row;
+                        shape.Cells[3].Col = col;
+
                         if (shape.Cells.Any(c => c.Col > _width))
                         {
                             shape = original;
@@ -124,13 +133,18 @@
                     }
                     else
                     {
-                        foreach (var cell in shape.Cells)
-                        {
-                            cell.Row = row;
-                            cell.Col = col;
-                            row++;
-                        }
-                        if (shape.Cells.Any(c => c.Row > _height))
+                        shape.Cells[0].Row = row;
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[2].Row = row + 2;
+
+                        shape.Cells[0].Col = col + 1;
+                        shape.Cells[1].Col = col + 1;
+                        shape.Cells[2].Col = col + 1;
+
+                        shape.Cells[3].Row = row + 2;
+                        shape.Cells[3].Col = col;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
                         {
                             shape = original;
                         }
@@ -141,6 +155,217 @@
                     }
                     break;
 
+                case ShapeEnum.L:
+                    if (!shape.Rotated)
+                    {
+                        shape.Cells[0].Row = row + 1;
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[2].Row = row + 1;
+
+                        shape.Cells[0].Col = col - 1;
+                        shape.Cells[1].Col = col;
+                        shape.Cells[2].Col = col + 1;
+
+                        shape.Cells[3].Row = row + 2;
+                        shape.Cells[3].Col = col - 1;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = true;
+                        }
+                    }
+                    else
+                    {
+                        shape.Cells[0].Row = row - 1;
+                        shape.Cells[1].Row = row;
+                        shape.Cells[2].Row = row + 1;
+
+                        shape.Cells[0].Col = col + 1;
+                        shape.Cells[1].Col = col + 1;
+                        shape.Cells[2].Col = col + 1;
+
+                        shape.Cells[3].Row = row + 1;
+                        shape.Cells[3].Col = col + 2;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = false;
+                        }
+                    }
+                    break;
+
+                case ShapeEnum.S:
+                    //Cells.Add(new Cell(1, 5));
+                    //Cells.Add(new Cell(1, 6));
+                    //Cells.Add(new Cell(2, 5));
+                    //Cells.Add(new Cell(2, 4));
+
+                    if (!shape.Rotated)
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col + 1;
+
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[1].Col = col + 1;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col;
+
+                        shape.Cells[3].Row = row + 2;
+                        shape.Cells[3].Col = col;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = true;
+                        }
+                    }
+                    else
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col + 1;
+
+                        shape.Cells[1].Row = row;
+                        shape.Cells[1].Col = col + 2;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col;
+
+                        shape.Cells[3].Row = row + 1;
+                        shape.Cells[3].Col = col + 1;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = false;
+                        }
+                    }
+
+                    break;
+
+                case ShapeEnum.Z:
+                    //Cells.Add(new Cell(1, 4));
+                    //Cells.Add(new Cell(1, 5));
+                    //Cells.Add(new Cell(2, 5));
+                    //Cells.Add(new Cell(2, 6));
+
+                    if (!shape.Rotated)
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col + 1;
+
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[1].Col = col + 1;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col;
+
+                        shape.Cells[3].Row = row + 2;
+                        shape.Cells[3].Col = col;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = true;
+                        }
+                    }
+                    else
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col;
+
+                        shape.Cells[1].Row = row;
+                        shape.Cells[1].Col = col + 1;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col + 1;
+
+                        shape.Cells[3].Row = row + 1;
+                        shape.Cells[3].Col = col + 2;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = false;
+                        }
+                    }
+
+                    break;
+
+                case ShapeEnum.T:
+                    //Cells.Add(new Cell(1, 5));
+                    //Cells.Add(new Cell(2, 4));
+                    //Cells.Add(new Cell(2, 5));
+                    //Cells.Add(new Cell(2, 6));
+
+                    if (!shape.Rotated)
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col + 1;
+
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[1].Col = col + 1;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col + 2;
+
+                        shape.Cells[3].Row = row + 2;
+                        shape.Cells[3].Col = col + 1;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = true;
+                        }
+                    }
+                    else
+                    {
+                        shape.Cells[0].Row = row;
+                        shape.Cells[0].Col = col;
+
+                        shape.Cells[1].Row = row + 1;
+                        shape.Cells[1].Col = col - 1;
+
+                        shape.Cells[2].Row = row + 1;
+                        shape.Cells[2].Col = col;
+
+                        shape.Cells[3].Row = row + 1;
+                        shape.Cells[3].Col = col + 1;
+
+                        if (shape.Cells.Any(c => c.Col > _width))
+                        {
+                            shape = original;
+                        }
+                        else
+                        {
+                            shape.Rotated = false;
+                        }
+                    }
+
+                    break;
 
                 default:
                     break;

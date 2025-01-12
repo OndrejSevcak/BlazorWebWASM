@@ -72,7 +72,7 @@
                     Cells.Add(new Cell(1, 5));
                     Cells.Add(new Cell(2, 5));
                     Cells.Add(new Cell(2, 6));
-                    Color = "bg-red";
+                    Color = "bg-danger";
                     break;
 
                 default:

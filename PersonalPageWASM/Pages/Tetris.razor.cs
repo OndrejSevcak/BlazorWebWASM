@@ -43,7 +43,9 @@ namespace PersonalPageWASM.Pages
 
         private void Rotate()
         {
-            _service.GameBoard.TryRotateShape(_service.State.CurrentShape);
+            var currentShape = _service.State.CurrentShape;
+            _service.GameBoard.TryRotateShape(ref currentShape);
+            _service.State.CurrentShape = currentShape;
         }
 
         private void Drop()
