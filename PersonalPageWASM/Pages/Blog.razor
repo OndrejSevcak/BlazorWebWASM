@@ -13,22 +13,22 @@
     }
     else
     {
-        foreach (var post in posts)
-        {
-            <div class="post-box" @onclick="@(() => _navManager.NavigateTo("/blogpost/" + post.Id))">
-                <div class="d-flex justify-content-center mt-3">
-                    <h5>@post.Title</h5>
+        <div class="d-flex justify-content-start flex-wrap">
+            @foreach (var post in posts)
+            {
+                <div class="post-box" @onclick="@(() => _navManager.NavigateTo("/blogpost/" + post.Id))">
+                    <div class="d-flex justify-content-center mt-3">
+                        <h6>@post.Title</h6>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-center fst-italic">
+                        <p>@post.Hashtags</p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p>@post.Date</p>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <h6>@post.Description</h6>
-                </div>
-                <div class="d-flex justify-content-between fs08 mt-2">
-                    <p class="px-5">Category: @post.Category</p>
-                    <p class="px-5">@post.Hashtags</p>
-                    <p class="px-5">@post.Date</p>
-                </div>
-            </div>
-        }
+            }
+        </div>
     }
 
 </div>

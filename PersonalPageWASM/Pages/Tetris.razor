@@ -1,5 +1,7 @@
 ﻿@page "/tetris"
 
+<PageTitle>Tetris</PageTitle>
+
 <div class="container d-flex mt-4">
     <div class="board">
         @for (int row = 1; row < _service.GameBoard.Height + 1; row++)
@@ -23,18 +25,69 @@
             }
         }
     </div>
-    <div class="controls">
-        <button class="btn-outline-dark" @onclick="StartNewGame">New Game</button>
-        <button class="btn-outline-dark" @onclick="EndGame">End Game</button>
+    <div>
+        <div class="controls">
+            <div class="d-flex justify-content-between">
+                @if (_service.GameIsRunning)
+                {
+                    <button class="btn-outline-dark w-50" @onclick="StartNewGame" disabled>New Game</button>
+                }
+                else
+                {
+                    <button class="btn-outline-dark w-50" @onclick="StartNewGame">New Game</button>
+                }
+                <button class="btn-outline-dark w-50" @onclick="EndGame">End Game</button>
+            </div>
 
-        <div class="mt-5 d-flex justify-content-center">
-            <button class="btn-outline-dark" @onclick="MoveLeft">Left</button>
-            <button class="btn-outline-dark" @onclick="MoveRight">Right</button>
+            <div class="mt-5 d-flex justify-content-center">
+                <button class="btn-outline-dark w-50" @onclick="MoveLeft"><i class="bi bi-arrow-left-circle-fill"></i> Left</button>
+                <button class="btn-outline-dark w-50" @onclick="MoveRight">Right <i class="bi bi-arrow-right-circle-fill"></i></button>
+            </div>
+
+            <div class="mt-1 d-flex justify-content-center">
+                <button class="btn-outline-dark w-50" @onclick="Rotate"><i class="bi bi-arrow-clockwise"></i> Rotate</button>
+                <button class="btn-outline-dark w-50" @onclick="Drop"><i class="bi bi-arrow-down"></i> Drop</button>
+            </div>
+
+            <div class="mt-5 d-flex justify-content-center">
+                <h5>Next shape</h5>
+            </div>
+            <div class="mt-2 d-flex justify-content-center">
+                <div class="mini-board">
+                    @for (int row = 1; row < 5; row++)
+                    {
+                        for (int col = 4; col < 8; col++)
+                        {
+                            var(_row, _col) = (row, col);
+                            string colorClass = String.Empty;
+
+                            if(_service.State.NextShape != null && _service.State.NextShape.Cells.Any(c => c.Row == _row && c.Col == _col))
+                            {
+                                colorClass = _service.State.NextShape.Color + " border1";
+                            }
+
+                            <div class="cell-min @colorClass"></div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class="d-flex justify-content-between">
+                    <h5>Score</h5>
+                    <h5>@_service.State.Score</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h5>Time</h5>
+                    <h5>@_service.State.ElapsedTime.ToString(@"mm\:ss")</h5>
+                </div>
+            </div>
         </div>
-
-        <div class="mt-5 d-flex justify-content-center">
-            <button class="btn-outline-dark" @onclick="Rotate">Rotate</button>
-            <button class="btn-outline-dark" @onclick="Drop">Drop</button>
+        <div class="mt-5">
+            @if (_service.State.IsGameOver)
+            {
+                <h2>Game Over!! Your score: @_service.State.Score</h2>
+            }
         </div>
     </div>
 </div>

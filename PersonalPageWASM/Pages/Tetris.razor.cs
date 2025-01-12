@@ -56,6 +56,7 @@ namespace PersonalPageWASM.Pages
         private void EndGame()
         {
             _service.State.IsGameOver = true;
+            _service.GameIsRunning = false;
         }
 
         private void UpdateUI()
