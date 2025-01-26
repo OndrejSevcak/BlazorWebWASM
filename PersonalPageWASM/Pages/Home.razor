@@ -1,6 +1,9 @@
 ﻿@page "/"
 
-<PageTitle>hey, homie!</PageTitle>
+@inject NavigationManager _navManager
+@inject SideBarUpdateService _updateService 
+
+<PageTitle>Hello!</PageTitle>
 
 <div class="container mt-5">
     <h1>Hello world</h1>
@@ -11,19 +14,39 @@
     </div>
 
     <div class="mt-5">
-        <p><i class="bi bi-controller"></i> Play some <a href="/tetris">TETRIS</a></p>
+        <p><i class="bi bi-controller"></i> Play some <a class="link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">TETRIS</a></p>
     </div>
 
     <div class="mt-5">
-        <p><i class="bi bi-newspaper"></i> Check my <a href="/blog">BLOG</a></p>
+        <p><i class="bi bi-newspaper"></i> Check my <a class="link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">BLOG</a></p>
     </div>
 
     <div class="mt-5">
-        <p><i class="bi bi-github"></i> Link to my <a href="https://github.com/OndrejSevcak">GitHub</a>.</p>
+        <p><i class="bi bi-github"></i> Link to my <a class="link-primary" href="https://github.com/OndrejSevcak">GitHub</a>.</p>
     </div>
 
     <div class="mt-5">
-        <p><i class="bi bi-linkedin"></i> Link to my <a href="https://www.linkedin.com/in/ondrejsevcak/">LinkedIn</a>.</p>
+        <p><i class="bi bi-linkedin"></i> Link to my <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/">LinkedIn</a>.</p>
     </div>
 
 </div>
+
+@code{
+
+    private void NavigateTo(string path)
+    {
+        switch (path)
+        {
+            case "/tetris":
+                _updateService.InvokeUpdateSidebar(path);
+                break;
+
+            case "/blog":
+                _updateService.InvokeUpdateSidebar(path);
+                break;
+
+            default:
+                break;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager _navManager
+@inject SideBarUpdateService _updateService
 
 <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-light w250 h-100">
     <a href="#" class="d-flex align-items-center mb-3 text-dark text-decoration-none">
@@ -32,6 +33,11 @@
 @code {
     string activeItem = "Home";
 
+    protected override void OnInitialized()
+    {
+        _updateService.UpdateSidebarActiveItem += (sender, path) => NavigateTo(path);
+    }
+
     void NavigateTo(string path)
     {
         switch (path)
@@ -53,6 +59,7 @@
                 _navManager.NavigateTo(path);
                 break;
         }
+        StateHasChanged();
 
     }
 

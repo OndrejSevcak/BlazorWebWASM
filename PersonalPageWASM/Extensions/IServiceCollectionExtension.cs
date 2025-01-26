@@ -6,6 +6,8 @@ namespace PersonalPageWASM.Extensions
     {
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
+            services.AddSingleton<SideBarUpdateService>();
+
             services.AddScoped<GitHubService>();
             services.AddScoped<BlogService>();
             services.AddScoped<TetrisGameService>();

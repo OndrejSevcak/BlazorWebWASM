@@ -3,8 +3,8 @@
 @using PersonalPageWASM.Services
 @using PersonalPageWASM.Models
 
-
 @inject BlogService _blogService
+@inject IJSRuntime _jsRuntime
 
 <div class="container">
 
@@ -39,8 +39,20 @@
 
     BlogPost? post = null;
 
+    private IJSObjectReference? jsModule;
+
+
     protected override void OnInitialized()
     {
         post = _blogService.Posts?.Where(p => p.Id == PostId)?.FirstOrDefault();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/modules.js");
+
+        await jsModule.InvokeVoidAsync("replaceCssClass", "language-razor", "language-csharp");
+
+        await jsModule.InvokeVoidAsync("enableCodeHighlight", null);
     }
 }
