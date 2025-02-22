@@ -4,6 +4,7 @@
 @using PersonalPageWASM.Models
 
 @inject BlogService _blogService
+@inject NavigationManager _navManager
 @inject IJSRuntime _jsRuntime
 
 <div class="container post-container">
@@ -55,7 +56,9 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/modules.js");
+        string path = _navManager.BaseUri + "js/modules.js";
+
+        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", path); //"./js/modules.js"
 
         await jsModule.InvokeVoidAsync("replaceCssClass", "language-razor", "language-csharp");
         await jsModule.InvokeVoidAsync("enableCodeHighlight", null);
