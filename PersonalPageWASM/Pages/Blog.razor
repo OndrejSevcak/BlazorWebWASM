@@ -7,30 +7,32 @@
 
 <div class="container-sm">
 
-    @if (posts == null)
+    @if (_blogService.Posts == null)
     {
         <p>Fetching data from GitHub...</p>
     }
     else
     {
-        <div class="mt-4">
-            <h5>Blazor</h5>
-            <ul>
-                @foreach (var post in posts.Where(p => p.Category == "Blazor"))
-                {
-                    <li>
-                        @{ string address = "/blogpost/" + post.Id;}
-                        <a href="@address">@post.Date - @post.Title - @post.Description</a>
-                    </li>
-                }
-            </ul>
-        </div>
+        @foreach (var category in _blogService.Posts.Select(s => s.Category).Distinct())
+        {
+            <div class="mt-4">
+                <h5>@category</h5>
+                <ul>
+                    @foreach (var post in _blogService.Posts.Where(p => p.Category == category))
+                    {
+                        <li>
+                            @{ string address = "/blogpost/" + post.Id;}
+                            <a href="@address">@post.Title</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
     }
 
 </div>
 
 @code {
-    List<BlogPost>? posts = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,10 +43,8 @@
     {
         try
         {
-            posts = await _blogService.GetPostsAsync("Posts/BlazorSeries");
-            posts = posts?.OrderByDescending(o => o.Date).ToList();
-
-            Console.WriteLine($"Posts loaded, count: {posts?.Count}");
+            await _blogService.GetPostsAsync("Posts/BlazorSeries");
+            await _blogService.GetPostsAsync("Posts/CSSGuide");
         }
         catch (Exception ex)
         {

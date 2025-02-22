@@ -1,2 +1,13 @@
-﻿body {
+﻿.post-container {
+    font-size: 14px;
+}
+
+.h2, h2 {
+    font-size: 22px !important;
+    margin-top: 20px;
+}
+
+.h3, h3 {
+    font-size: 18px !important;
+    margin-top: 20px;
 }

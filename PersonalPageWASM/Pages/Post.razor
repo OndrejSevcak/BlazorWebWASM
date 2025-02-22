@@ -6,7 +6,7 @@
 @inject BlogService _blogService
 @inject IJSRuntime _jsRuntime
 
-<div class="container">
+<div class="container post-container">
 
     @if (post == null)
     {
@@ -14,7 +14,11 @@
     }
     else
     {
-        <div class="row mt-2 w-100">
+        <div class="d-flex mt-2">
+            <div>@((MarkupString)post.HtmlContent)</div>
+        </div>
+
+        @*<div class="row mt-2 w-100">
             <div class="d-flex justify-content-center">
                 <h2>@post.Title</h2>
             </div>
@@ -28,7 +32,7 @@
             <div class="d-flex mt-2">
                 <div>@((MarkupString)post.HtmlContent)</div>
             </div>
-        </div>
+        </div>*@
     }
 </div>
 
@@ -42,9 +46,27 @@
     private IJSObjectReference? jsModule;
 
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
+        if(_blogService.Posts == null)
+        {
+            await LoadPosts();
+        }
+
         post = _blogService.Posts?.Where(p => p.Id == PostId)?.FirstOrDefault();
+    }
+
+    private async Task LoadPosts()
+    {
+        try
+        {
+            await _blogService.GetPostsAsync("Posts/BlazorSeries");
+            await _blogService.GetPostsAsync("Posts/CSSGuide");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,7 +74,7 @@
         jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/modules.js");
 
         await jsModule.InvokeVoidAsync("replaceCssClass", "language-razor", "language-csharp");
-
         await jsModule.InvokeVoidAsync("enableCodeHighlight", null);
+        await jsModule.InvokeVoidAsync("applyPostStyling");
     }
 }

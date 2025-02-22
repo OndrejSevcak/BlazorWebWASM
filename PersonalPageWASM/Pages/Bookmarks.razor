@@ -6,38 +6,13 @@
 
 <div class="container">
 
-    @if (posts == null)
-    {
-        <p>Loading..</p>
-    }
-    else
-    {
-        <div>
-            @((MarkupString)posts?.FirstOrDefault()?.HtmlContent)
-        </div>
-    }
+
 
 
 </div>
 
 
 @code {
-    List<BlogPost>? posts = null;
 
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadBookmarks();
-    }
 
-    private async Task LoadBookmarks()
-    {
-        try
-        {
-            posts = await _blogService.GetPostsAsync("Bookmarks");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
 }

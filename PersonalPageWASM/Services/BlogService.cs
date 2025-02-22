@@ -16,13 +16,13 @@ namespace PersonalPageWASM.Services
             _githubService = githubService;
         }
 
-        public async Task<List<BlogPost>?> GetPostsAsync(string folderName)
+        public async Task GetPostsAsync(string folderName)
         {
             List<BlogPost> posts = new List<BlogPost>();
             
             var files = await _githubService.GetFilesAsync(folderName);
 
-            if (files == null) return null;
+            if (files == null) return;
 
             foreach (var file in files)
             {
@@ -40,9 +40,12 @@ namespace PersonalPageWASM.Services
                 posts.Add(post);
             }
 
-            Posts = posts;
+            if(Posts == null)
+            {
+                Posts = new List<BlogPost>();
+            }
 
-            return posts;
+            Posts.AddRange(posts);
         }
 
         private string TransformMarkdownToHtml(string markdown)

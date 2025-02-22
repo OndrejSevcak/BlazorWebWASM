@@ -12,4 +12,13 @@ export function replaceCssClass(toBeReplaced, replacement) {
     });
 }
 
+export function applyPostStyling() {
+    const h3s = document.getElementsByTagName('h3');
+    if (h3s) {
+        Array.from(h3s).forEach(e => {
+            e.style = 'margin-top: 25px;';
+        });
+    }
+}
+
 

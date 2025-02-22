@@ -1,37 +1,38 @@
 ﻿@page "/"
 
 @inject NavigationManager _navManager
-@inject SideBarUpdateService _updateService 
+@inject SideBarUpdateService _updateService
+@inject IJSRuntime _jsRuntime
 
 <PageTitle>Hello!</PageTitle>
 
 <div class="container mt-5">
-    <h1>Hello world</h1>
+    <h1>Hello {world}</h1>
 
     <div class="mt-5">
-        <p>This is a Blazor WebAssembly app hosted at GitHub Pages.</p>
-        <p>I am gonna use this site for Blazor dev experiments and something like my personal blog.</p>
+        <p>
+            This is my DEMO Blazor WebAssembly app hosted at GitHub Pages.<br>
+        </p>
+        <p class="mt-2">
+            I am a passionate .NET developer with focus on web applications. This page already contains:
+        </p>
+        <ul>
+            <li><i class="bi bi-newspaper"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">Blog service</a> using GitHub API with markdown and yaml reader</li>
+            <li><i class="bi bi-controller"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">Tetris game</a> written in C# and rendered using Blazor WASM</li>
+            <li>..more is being cooked</li>
+        </ul>
     </div>
 
-    <div class="mt-5">
-        <p><i class="bi bi-controller"></i> Play some <a class="link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">TETRIS</a></p>
-    </div>
 
     <div class="mt-5">
-        <p><i class="bi bi-newspaper"></i> Check my <a class="link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">BLOG</a></p>
-    </div>
-
-    <div class="mt-5">
-        <p><i class="bi bi-github"></i> Link to my <a class="link-primary" href="https://github.com/OndrejSevcak">GitHub</a>.</p>
-    </div>
-
-    <div class="mt-5">
-        <p><i class="bi bi-linkedin"></i> Link to my <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/">LinkedIn</a>.</p>
+        <p><i class="bi bi-github"></i> Source code at my <a class="link-primary" href="https://github.com/OndrejSevcak">GitHub</a>.</p>
+        <p><i class="bi bi-linkedin"></i> Say hi to me at <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/">LinkedIn</a>.</p>
     </div>
 
 </div>
 
 @code{
+    private IJSObjectReference? jsModule;
 
     private void NavigateTo(string path)
     {
@@ -48,5 +49,10 @@
             default:
                 break;
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/modules.js");
     }
 }
