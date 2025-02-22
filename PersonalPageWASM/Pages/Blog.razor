@@ -36,7 +36,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadPosts();
+        if(_blogService.Posts == null)
+        {
+            await LoadPosts();
+        }
     }
 
     private async Task LoadPosts()
