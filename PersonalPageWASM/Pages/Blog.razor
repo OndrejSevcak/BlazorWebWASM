@@ -46,8 +46,7 @@
     {
         try
         {
-            await _blogService.GetPostsAsync("Posts/BlazorSeries");
-            await _blogService.GetPostsAsync("Posts/CSSGuide");
+            await _blogService.GetPostsAsync();
         }
         catch (Exception ex)
         {

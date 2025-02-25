@@ -16,28 +16,31 @@ namespace PersonalPageWASM.Services
             _githubService = githubService;
         }
 
-        public async Task GetPostsAsync(string folderName)
+        public async Task GetPostsAsync()
         {
             List<BlogPost> posts = new List<BlogPost>();
             
-            var files = await _githubService.GetFilesAsync(folderName);
+            var files = await _githubService.GetAllPosts();
 
             if (files == null) return;
 
             foreach (var file in files)
             {
-                //YAML header deserialization
-                var header = GetYamlHeader(file.Content);
+                if(file.FileExtension == "md")
+                {
+                    //YAML header deserialization
+                    var header = GetYamlHeader(file.Content);
 
-                var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
-                var post = deserializer.Deserialize<BlogPost>(header);
+                    var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
+                    var post = deserializer.Deserialize<BlogPost>(header);
 
-                post = post ?? new BlogPost();  //yaml header is optional
+                    post = post ?? new BlogPost();  //yaml header is optional
 
-                //Markdown to HTML transformation
-                var markdown = GetMarkdownContent(file.Content);
-                post.HtmlContent = TransformMarkdownToHtml(markdown);
-                posts.Add(post);
+                    //Markdown to HTML transformation
+                    var markdown = GetMarkdownContent(file.Content);
+                    post.HtmlContent = TransformMarkdownToHtml(markdown);
+                    posts.Add(post);
+                }
             }
 
             if(Posts == null)

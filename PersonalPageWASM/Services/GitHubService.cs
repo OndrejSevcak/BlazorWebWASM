@@ -15,6 +15,24 @@ namespace PersonalPageWASM.Services
             _httpClient = httpClient;
         }
 
+
+        public async Task<List<GitHubFile>> GetAllPosts()
+        {
+            var folders = await GetFilesAsync("Posts");
+            List<GitHubFile> posts = new List<GitHubFile>();
+
+            foreach (var folder in folders)
+            {
+                if (!String.IsNullOrEmpty(folder.Name))
+                {
+                    posts.AddRange(await GetFilesAsync($"Posts/{folder.Name}"));
+                }
+            }
+
+            return posts;
+        }
+
+
         //GET: /repos/{owner}/{repo}/contents/{path}
         public async Task<List<GitHubFile>?> GetFilesAsync(string folder)
         {
@@ -30,7 +48,7 @@ namespace PersonalPageWASM.Services
                         PropertyNameCaseInsensitive = true
                     };
 
-                    var files = JsonSerializer.Deserialize<List<GitHubFile>>(responseContent, jsonOptions);
+                    var files = JsonSerializer.Deserialize<List<GitHubFile>>(responseContent, jsonOptions); //name containes subfolder name
 
                     if (files == null)
                     {
