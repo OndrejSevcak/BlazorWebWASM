@@ -11,3 +11,7 @@
     font-size: 18px !important;
     margin-top: 20px;
 }
+
+img{
+    max-width: 100% !important;
+}

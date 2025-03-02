@@ -1,8 +1,10 @@
-﻿namespace PersonalPageWASM.Models
+﻿using System.Text.RegularExpressions;
+
+namespace PersonalPageWASM.Models
 {
     public class BlogPost
     {
-        public string Id => Title + "_" + Date.ToString();
+        public string Id => Regex.Replace(Title.ToLower(), "[^a-z]", "") + "_" + Date.ToString();
         public string Title { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }

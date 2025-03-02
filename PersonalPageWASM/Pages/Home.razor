@@ -7,26 +7,26 @@
 <PageTitle>Hello!</PageTitle>
 
 <div class="container mt-5">
-    <h1>Hello {world}</h1>
+    <h1>Hello {.NET} world</h1>
 
     <div class="mt-5">
         <p>
-            This is my DEMO Blazor WebAssembly app hosted at GitHub Pages.<br>
+            Toto je moje DEMO Blazor WebAssembly aplikace hostovaná na <a href="https://pages.github.com/" target="_blank"> GitHub Pages</a>.<br>
         </p>
         <p class="mt-2">
-            I am a passionate .NET developer with focus on web applications. <br />This page already contains:
+            Zabývám se vývojem .NET aplikací se zaměřením na webové aplikace pomocí ASP.NET Core a Blazor, a také vývojem RESTových API . <br />
+            Tato stránka zatím obsahuje:
         </p>
         <ul>
-            <li><i class="bi bi-newspaper"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">Blog service</a> using GitHub API to load markdown posts with yaml header</li>
-            <li><i class="bi bi-controller"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">Tetris game</a> written in C# and rendered using Blazor WASM</li>
-            <li>..more is being cooked</li>
+            <li><i class="bi bi-newspaper"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">Blog service</a> s použitím GitHub repositáře jako storage a jeho API k načítání příspěvků v markdownu</li>
+            <li><i class="bi bi-controller"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">Tetris game</a> napsanou v C# a renderovanou pomocí Blazor WASM</li>
         </ul>
     </div>
 
 
-    <div class="mt-5">
-        <p><i class="bi bi-github"></i> Source code at my <a class="link-primary" href="https://github.com/OndrejSevcak">GitHub</a>.</p>
-        <p><i class="bi bi-linkedin"></i> Say hi to me at <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/">LinkedIn</a>.</p>
+    <div class="mt-5 fixed-bottom mb-2" style="margin-left: 320px;">
+        <p><i class="bi bi-github"></i> Source code na mém <a class="link-primary" href="https://github.com/OndrejSevcak" target="_blank">GitHub</a>.</p>
+        <p><i class="bi bi-linkedin"></i> Najdeš mě na <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/" target="_blank">LinkedIn</a>.</p>
     </div>
 
 </div>
