@@ -23,6 +23,19 @@ namespace PersonalPageWASM.Pages
             _service.NewGame();
         }
 
+        private string GetCellColorClass(int row, int col)
+        {
+            if(_service.State.CurrentShape != null && _service.State.CurrentShape.Cells.Any(c => c.Row == row && c.Col == col))
+            {
+                return _service.State.CurrentShape.Color;
+            }
+            else if (_service.MergedShapes.Any(s => s.Cells.Any(c => c.Row == row && c.Col == col)))
+            {
+                return _service.MergedShapes.First(s => s.Cells.Any(c => c.Row == row && c.Col == col)).Color;
+            }
+            return string.Empty;
+        }
+
         private void MoveLeft()
         {
             if(_service.GameBoard.IsMovePossible(_service.State.CurrentShape, Models.Tetris.MoveDirection.left))

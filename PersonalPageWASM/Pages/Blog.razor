@@ -10,6 +10,7 @@
     @if (_blogService.Posts == null)
     {
         <p>Fetching data from GitHub...</p>
+        <Loader />
     }
     else
     {

@@ -1,8 +1,5 @@
 ﻿@page "/blogpost/{PostId}"
 
-@using PersonalPageWASM.Services
-@using PersonalPageWASM.Models
-
 @inject BlogService _blogService
 @inject NavigationManager _navManager
 @inject IJSRuntime _jsRuntime
@@ -11,7 +8,7 @@
 
     @if (post == null)
     {
-        <p>Loading...</p>
+        <Loader/>
     }
     else
     {

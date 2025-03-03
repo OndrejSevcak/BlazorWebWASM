@@ -6,6 +6,11 @@
         public ShapeEnum ShapeType { get; set; }
         public string Color { get; set; }
         public bool Rotated { get; set; }
+
+        /// <summary>
+        /// 0, 1 (90), 2 (180), 3 (270) -> THIS IS TO BE IMPLEMENTED YET
+        /// </summary>
+        public int RotationState { get; set; } = 0;
         public bool Dropped { get; set; }
 
         public Shape(ShapeEnum shapeType)
