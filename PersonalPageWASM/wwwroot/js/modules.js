@@ -19,6 +19,12 @@ export function applyPostStyling() {
             e.style = 'margin-top: 25px;';
         });
     }
+    const imgs = document.getElementsByTagName('img');
+    if (imgs) {
+        Array.from(imgs).forEach(i => {
+            i.style = 'max-width: 100%;';
+        })
+    }
 }
 
 

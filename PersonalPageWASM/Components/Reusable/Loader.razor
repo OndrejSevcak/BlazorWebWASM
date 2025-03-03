@@ -1,0 +1,10 @@
+﻿<div id="loader" class="@(DisplayFlag ? "d-block" : "d-none")">
+    <div class="spinner-border text-primary">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool DisplayFlag { get; set; } = true;
+}

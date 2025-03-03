@@ -1,4 +1,8 @@
-﻿.board{
+﻿html, body{
+    height: 100%;
+}
+
+.board{
     width: 300px;
     display: flex;
     flex-direction: row;

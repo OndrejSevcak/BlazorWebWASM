@@ -2,24 +2,14 @@
 
 <PageTitle>Tetris</PageTitle>
 
-<div class="container d-flex mt-4">
+<div class="container d-flex mt-4 h-100">
     <div class="board">
         @for (int row = 1; row < _service.GameBoard.Height + 1; row++)
         {
             for (int col = 1; col < _service.GameBoard.Width + 1; col++)
             {
                 var (_row, _col) = (row, col);
-                string colorClass = String.Empty;
-
-                @if (_service.State.CurrentShape != null &&
-                    _service.State.CurrentShape.Cells.Any(c => c.Row == _row && c.Col == _col))
-                {
-                    colorClass = _service.State.CurrentShape.Color;
-                }
-                else if(_service.MergedShapes.Any(s => s.Cells.Any(c => c.Row == _row && c.Col == _col)))
-                {
-                    colorClass = _service.MergedShapes.First(s => s.Cells.Any(c => c.Row == _row && c.Col == _col)).Color;
-                }
+                string colorClass = GetCellColorClass(_row, _col);
 
                 <div class="cell @colorClass" @onclick="(() => LogCell(_row, _col))"></div>
             }
@@ -58,10 +48,10 @@
                     {
                         for (int col = 4; col < 8; col++)
                         {
-                            var(_row, _col) = (row, col);
+                            var (_row, _col) = (row, col);
                             string colorClass = String.Empty;
 
-                            if(_service.State.NextShape != null && _service.State.NextShape.Cells.Any(c => c.Row == _row && c.Col == _col))
+                            if (_service.State.NextShape != null && _service.State.NextShape.Cells.Any(c => c.Row == _row && c.Col == _col))
                             {
                                 colorClass = _service.State.NextShape.Color + " border1";
                             }
@@ -83,13 +73,18 @@
                 </div>
             </div>
         </div>
-        <div class="mt-5">
-            @if (_service.State.IsGameOver)
-            {
-                <h2>Game Over!! Your score: @_service.State.Score</h2>
-            }
-        </div>
     </div>
+</div>
+<div class="container">
+    @if (_service.State.IsGameOver)
+    {
+        <div class="row mt-5">
+            <div class="col text-center">
+                <h2>Game Over!! Your score: @_service.State.Score</h2>
+            </div>
+            <div class="col"></div>
+        </div>
+    }
 </div>
 
 
