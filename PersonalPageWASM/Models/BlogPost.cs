@@ -11,6 +11,7 @@ namespace PersonalPageWASM.Models
         public DateOnly Date { get; set; }
         public string Category { get; set; }
         public string Hashtags { get; set; }
+        public bool Publish { get; set; } = true;
 
         public string HtmlContent { get; set; }
     }

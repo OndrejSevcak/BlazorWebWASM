@@ -37,9 +37,12 @@ namespace PersonalPageWASM.Services
                     post = post ?? new BlogPost();  //yaml header is optional
 
                     //Markdown to HTML transformation
-                    var markdown = GetMarkdownContent(file.Content);
-                    post.HtmlContent = TransformMarkdownToHtml(markdown);
-                    posts.Add(post);
+                    if (post.Publish)
+                    {
+                        var markdown = GetMarkdownContent(file.Content);
+                        post.HtmlContent = TransformMarkdownToHtml(markdown);
+                        posts.Add(post);
+                    }
                 }
             }
 
