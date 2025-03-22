@@ -4,3 +4,33 @@
     width: 250px;
 }
 
+#mainMenu > li:not(.donothover):hover {  
+   background-color: rgb(100, 149, 237); /* Lighter blue color */  
+   border: 0px;  
+   border-radius: 0.25rem;  
+}
+
+#mainMenu .nav-link:not(.donothover):hover {
+    color: white !important;
+    transition: none;
+}
+
+#blazorSubmenu li {
+    margin-left: 35px;
+    font-size: 0.8rem;
+}
+
+#blazorSubmenu .nav-link{
+    padding: 0.3rem 0.5rem; 
+}
+
+    #blazorSubmenu li:hover {
+        background-color: rgb(100, 149, 237); /* Lighter blue color */
+        border: 0px;
+        border-radius: 0.25rem;
+    }
+
+    #blazorSubmenu .nav-link:hover {
+        color: white !important;
+        transition: none;
+    }
