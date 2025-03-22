@@ -11,22 +11,33 @@
 
     <div class="mt-5">
         <p>
-            Toto je moje DEMO Blazor WebAssembly aplikace hostovaná na <a href="https://pages.github.com/" target="_blank"> GitHub Pages</a>.<br>
+            Toto je můj osobní web postavený na Blazor WebAssembly a hostovaný na <a href="https://pages.github.com/" target="_blank"> GitHub Pages</a><br>
+            Zabývám se full-stack vývojem webových aplikací na platfomě .NET a na tomto webu se budu věnovat převážně technologii Blazor.
         </p>
         <p class="mt-2">
-            Zabývám se vývojem .NET aplikací se zaměřením na webové aplikace pomocí ASP.NET Core a Blazor, a také vývojem RESTových API . <br />
-            Tato stránka zatím obsahuje:
+            Na tomto webu zatím najdete:
         </p>
-        <ul>
-            <li><i class="bi bi-newspaper"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">Blog service</a> s použitím GitHub repositáře jako storage a jeho API k načítání příspěvků v markdownu</li>
-            <li><i class="bi bi-controller"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">Tetris game</a> napsanou v C# a renderovanou pomocí Blazor WASM</li>
+        <ul style="list-style:none;">
+            <li><i class="bi bi-newspaper"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blog"))">Blog service</a> -> s použitím GitHub repositáře a jeho API jako storage pro články ve formátu .md</li>
+            <li><i class="bi bi-controller"></i><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/tetris"))">Tetris game</a> -> hru napsanou v C# a renderovanou pomocí Blazor WASM</li>
+        </ul>
+        <p class="mt-2">
+            Nejnovější featura: <i class="bi bi-fire"></i>
+        </p>
+        <ul style="list-style:none;">
+            <li><a class="ms-2 link-primary pointer" @onclick="@(() => NavigateTo("/blazor/binding"))">Blazor binding demo</a></li>
         </ul>
     </div>
 
 
-    <div class="mt-5 fixed-bottom mb-2" style="margin-left: 320px;">
-        <p><i class="bi bi-github"></i> Source code na mém <a class="link-primary" href="https://github.com/OndrejSevcak" target="_blank">GitHub</a>.</p>
-        <p><i class="bi bi-linkedin"></i> Najdeš mě na <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/" target="_blank">LinkedIn</a>.</p>
+    <div class="mt-5 fixed-bottom d-flex justify-content-between mb-2">
+        <div class="d-flex" style="margin-left:320px;">
+            <p><i class="bi bi-github"></i> Source code na mém <a class="link-primary" href="https://github.com/OndrejSevcak" target="_blank">GitHub</a>.</p>
+            <p class="ms-4"><i class="bi bi-linkedin"></i> Najdeš mě na <a class="link-primary" href="https://www.linkedin.com/in/ondrejsevcak/" target="_blank">LinkedIn</a>.</p>
+        </div>
+        <div class="me-3">
+            Poslední update: 22.03.2025
+        </div>
     </div>
 
 </div>
@@ -47,6 +58,7 @@
                 break;
 
             default:
+                _updateService.InvokeUpdateSidebar(path);
                 break;
         }
     }

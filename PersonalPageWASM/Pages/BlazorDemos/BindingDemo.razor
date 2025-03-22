@@ -1,0 +1,164 @@
+﻿@page "/blazor/binding"
+@using PersonalPageWASM.Components.FormControls
+
+@inject IJSRuntime _jsRuntime
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-content-center">
+        <h4>Binding to native html elements</h4>
+        <h4>Page render count: @renderCnt</h4>
+    </div>
+    <hr />
+
+    <div class="d-flex">
+        <span>Blazor binding to text input using &#64 bind: </span>
+        <input type="text" class="mx-4" @bind="name" />
+        <span class="text-danger"> @name</span>
+    </div>
+    <p class="fst-italic fs08">Překreslení stránky je spouštěno po exekuci event handleru - v tomto případe OnChange, který se provede jakmile input ztratí focus</p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.BasicBind()
+        </code>
+    </pre>
+    <hr />
+
+    <div class="d-flex">
+        <span>HTML binding to text input using javascripts onchange event: </span>
+        <input type="text" class="mx-4" value="@surname" @onchange="@((ChangeEventArgs args) => surname = args?.Value?.ToString())" />
+        <span class="text-danger"> @surname</span>
+    </div>
+    <p class="fst-italic fs08">Překreslení stránky je opět spouštěno po exekuci event handleru po ztrátě focusu</p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.HTMLBind()
+        </code>
+    </pre>
+    <hr />
+
+    <div class="d-flex">
+        <span>OnInput event binding using &#64 bind:event="oninput": </span>
+        <input type="text" class="mx-4" @bind="nickname" @bind:event="oninput" />
+        <span class="text-danger"> @nickname</span>
+    </div>
+    <p class="fst-italic fs08">Překreslení stránky nyní probíhá na oninput event - při každé změně hodnoty způsobené psaním </p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.OnInputBind()
+        </code>
+    </pre>
+    <hr />
+
+    <div class="d-flex">
+        <span class="@toggleClass">Execute additional logic during binding using &#64 bind:after="FunctionName": </span>
+        <input type="text" class="mx-4" @bind="searchText" @bind:after="ToggleCssClass" />
+        <span class="text-danger"> @searchText</span>
+    </div>
+    <p class="fst-italic fs08">Funkce specifikované v bind:after se vykoná po onchange eventu, kteý způsobí překreslení stránky </p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.BindAfter()
+        </code>
+    </pre>
+    <hr />
+
+    <h5 class="mt-5">Binding to components</h5>
+    <hr />
+
+    <div class="d-flex">
+        <span class="@toggleClass">Binding to a child component parameter with &#64 bind-Value syntax: </span>
+        <InputText @bind-Value="petName" class="mx-4" />
+        <span class="text-danger"> @petName</span>
+    </div>
+    <p class="fst-italic fs08"> </p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.BindValue()
+        </code>
+    </pre>
+    <hr />
+
+    <div class="d-flex mb-4">
+        <span class="@toggleClass">Binding to a CUSTOM child component parameter with &#64 bind-Value syntax: </span>
+        <div class="d-block mx-4 w-30">
+            <InputGroupText @bind-Value="catName" PrependText="TEST" />
+        </div>
+        <span class="text-danger"> @catName</span>
+    </div>
+    <p class="fst-italic fs08"></p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.BindCustomComponent()
+        </code>
+    </pre>
+    <p class="fst-italic fs08">Custom InputGroupText.razor component syntax</p>
+    <pre>
+    <code>
+            @PersonalPageWASM.Data.CodeSnippets.CustomBindingComponent()
+        </code>
+    </pre>
+
+
+
+</div>
+
+@code {
+    private string? name;
+    //name field is updated when input loses focus
+    //page is updated when the component is re-rendered, not in response to changing the field value
+    //when changing the name input value, an onchange event handler is triggered
+
+    //components re-render when Event handler code executed -> changing filed value is immedaitely reflected in the UI
+
+    private string? surname;
+    private string? nickname;
+
+    private string? searchText;
+
+    string? petName;
+    string? catName;
+    string toggleClass = "text-dark";
+
+    int renderCnt = 0;
+
+    //Method invoked when the component is ready to start, having received its initial
+    //parameters from its parent in the render tree
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    //Method invoked after each time the component has rendered interactively and the UI has finished updating
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Console.WriteLine("BindingDemo rendered for the FRIST TIME");
+        }
+        else
+        {
+            Console.WriteLine($"{nameof(BindingDemo)} rendered for the {renderCnt}th TIME");
+        }
+        renderCnt++;
+    }
+
+    private async Task PerformSearch()
+    {
+        await Task.Delay(200);  //await _searchService.FetchAsynch(searchText)
+        Console.WriteLine($"Searching for value {searchText}");
+    }
+
+    private void ToggleCssClass()
+    {
+        toggleClass = toggleClass == "text-dark" ? "text-primary" : "text-dark";
+    }
+
+    private IJSObjectReference? jsModule;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/modules.js");
+        await jsModule.InvokeVoidAsync("enableCodeHighlight", null);
+    }
+}

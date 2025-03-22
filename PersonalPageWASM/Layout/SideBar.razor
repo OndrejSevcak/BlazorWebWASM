@@ -7,7 +7,7 @@
         <span class="fs-4"></span>
     </a>
     <hr />
-    <ul class="nav nav-pills flex-column mb-auto">
+    <ul class="nav nav-pills flex-column mb-auto" id="mainMenu">
         <li class="pointer @(activeItem == "Home" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/"))">
             <div class="nav-link @(activeItem == "Home" ? "active" : "text-dark")">
                 <i class="bi bi-house"></i>
@@ -26,12 +26,32 @@
                 &emsp;Tetris
             </div>
         </li>
+        <!-- Blazor Parent Item -->
+        <li class="pointer @(isBlazorMenuOpen ? "donothover" : "")">
+            <div class="nav-link text-dark @(isBlazorMenuOpen ? "donothover" : "")" @onclick="ToggleBlazorMenu">
+                <i class="bi bi-code-slash"></i>
+                &emsp;Blazor
+                <i class="bi @(isBlazorMenuOpen ? "bi-chevron-up" : "bi-chevron-down") float-end"></i>
+            </div>
+            <ul class="@(isBlazorMenuOpen ? "show" : "") collapse list-unstyled ps-3" id="blazorSubmenu">
+                <li class="pointer @(activeItem == "Blazor-Binding" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/blazor/binding"))">
+                    <div class="nav-link @(activeItem == "Blazor-Binding" ? "active" : "text-dark")">Binding</div>
+                </li>
+                <li class="pointer @(activeItem == "Blazor-EventHandling" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/coming-soon"))">
+                    <div class="nav-link @(activeItem == "Blazor-EventHandling" ? "active" : "text-dark")">Event Handling</div>
+                </li>
+                <li class="pointer @(activeItem == "Blazor-Components" ? "nav-item" : "")" @onclick="@(() => NavigateTo("/coming-soon"))">
+                    <div class="nav-link @(activeItem == "Blazor-Components" ? "active" : "text-dark")">Components</div>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>
 
 
 @code {
     string activeItem = "Home";
+    bool isBlazorMenuOpen = false;
 
     protected override void OnInitialized()
     {
@@ -44,23 +64,33 @@
         {
             case "/":
                 activeItem = "Home";
-                _navManager.NavigateTo(path);
                 break;
             case "/blog":
                 activeItem = "Blog";
-                _navManager.NavigateTo(path);
                 break;
             case "/tetris":
                 activeItem = "Tetris";
-                _navManager.NavigateTo(path);
+                break;
+            case "/blazor/components":
+                activeItem = "Blazor-Components";
+                break;
+            case "/blazor/binding":
+                activeItem = "Blazor-Binding";
+                break;
+            case "/blazor/event-handling":
+                activeItem = "Blazor-EventHandling";
                 break;
             default:
                 activeItem = "Home";
-                _navManager.NavigateTo(path);
                 break;
         }
+        _navManager.NavigateTo(path);
         StateHasChanged();
+    }
 
+    void ToggleBlazorMenu()
+    {
+        isBlazorMenuOpen = !isBlazorMenuOpen;
     }
 
 }
